@@ -145,8 +145,43 @@ final class MainView: UIView {
         
         let label: UILabel = UILabel()
         label.text = "\(customer.getWaitingNumber()) - \(bankingServiceType)"
+        label.font = .preferredFont(forTextStyle: .title3)
         
         waitLabelStackView.addArrangedSubview(label)
+    }
+    
+    func addProcessLabel(customer: Customer) {
+        guard let bankingServiceType: BankingService = customer.getBankingServiceType() else { return }
+        
+        let label: UILabel = UILabel()
+        label.text = "\(customer.getWaitingNumber()) - \(bankingServiceType)"
+        label.font = .preferredFont(forTextStyle: .title3)
+        
+        processLabelStackView.addArrangedSubview(label)
+        
+        waitLabelStackView.arrangedSubviews.forEach {
+            guard let waitLabel = $0 as? UILabel else { return }
+            
+            if waitLabel.text == label.text {
+                $0.removeFromSuperview()
+            }
+        }
+    }
+    
+    func deleteProcessLabel(customer: Customer) {
+        guard let bankingServiceType: BankingService = customer.getBankingServiceType() else { return }
+        
+        processLabelStackView.arrangedSubviews.forEach {
+            guard let label = $0 as? UILabel else { return }
+            
+            if label.text == "\(customer.getWaitingNumber()) - \(bankingServiceType)" {
+                $0.removeFromSuperview()
+            }
+        }
+    }
+    
+    func updateTimer(_ time: String) {
+        processTimeLabel.text = "업무시간 - \(time)"
     }
 }
 
