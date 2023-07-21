@@ -27,6 +27,6 @@ struct BankManager {
     }
     
     func finishWork() {
-        group.wait()
+//        group.wait()
     }
 }
